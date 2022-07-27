@@ -13,9 +13,4 @@ defmodule Lecabot.Bot do
   def handle_join(channel, user) do
     IO.inspect("#{user} joins #{channel}")
   end
-
-  def handle_join(channel) do
-    IO.inspect "JOIN #{channel}"
-  end
-
 end
