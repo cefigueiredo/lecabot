@@ -7,9 +7,12 @@ defmodule Lecabot.Application do
 
   @impl true
   def start(_type, _args) do
+    [bot_config] = Application.fetch_env!(:lecabot, :bots)
+
     children = [
       # Starts a worker by calling: Lecabot.Worker.start_link(arg)
       # {Lecabot.Worker, arg}
+      {TMI.Supervisor, bot_config}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
