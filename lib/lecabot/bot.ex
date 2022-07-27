@@ -7,7 +7,12 @@ defmodule Lecabot.Bot do
   end
 
   def handle_message(msg, sender, chat) do
-    IO.inspect(%{sender: sender, msg: msg, chat: chat})
+    case sender do
+      "lecaduco" ->
+        IO.puts "Eu disse: #{msg}"
+      origem ->
+        IO.puts "#{origem} disse: #{msg}"
+    end
   end
 
   def handle_join(channel, user) do
