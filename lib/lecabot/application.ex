@@ -12,7 +12,8 @@ defmodule Lecabot.Application do
     children = [
       # Starts a worker by calling: Lecabot.Worker.start_link(arg)
       # {Lecabot.Worker, arg}
-      {TMI.Supervisor, bot_config}
+      {TMI.Supervisor, bot_config},
+      {Lecabot.Dojo, %Lecabot.Dojo{}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
