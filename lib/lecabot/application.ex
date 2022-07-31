@@ -13,7 +13,7 @@ defmodule Lecabot.Application do
       # Starts a worker by calling: Lecabot.Worker.start_link(arg)
       # {Lecabot.Worker, arg}
       {TMI.Supervisor, bot_config},
-      {Lecabot.Dojo, %Lecabot.Dojo{}}
+      {DynamicSupervisor, name: Lecabot.DojoSupervisor, strategy: :one_for_one }
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
