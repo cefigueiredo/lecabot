@@ -104,6 +104,28 @@ defmodule Lecabot.DojoTest do
     end
   end
 
+  describe "handle_cast/2 :iterate - when audience is fewer than 3 names" do
+    setup do
+      initial_audience = MapSet.new(["username1", "username2"])
+      {:ok, dojo_pid} = GenServer.start(Lecabot.Dojo, %Lecabot.Dojo{audience: initial_audience})
+
+      [
+        initial_audience: initial_audience,
+        dojo_pid: dojo_pid
+      ]
+    end
+
+    test "does nothing", context do
+      GenServer.cast context.dojo_pid, :iterate
+
+      dojo_atual = GenServer.call context.dojo_pid, :dojo
+
+      assert dojo_atual.audience == context.initial_audience
+      assert is_nil(dojo_atual.pilot)
+      assert is_nil(dojo_atual.copilot)
+    end
+  end
+
   def initial_iterable_session(_context) do
     initial_audience = MapSet.new(["username1", "username2", "username3"])
     {:ok, dojo_pid} = GenServer.start(Lecabot.Dojo, %Lecabot.Dojo{audience: initial_audience})

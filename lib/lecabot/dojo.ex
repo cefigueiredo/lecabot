@@ -55,28 +55,33 @@ defmodule Lecabot.Dojo do
   end
 
   def handle_cast(:iterate, dojo) do
-    if is_nil(dojo.pilot) && is_nil(dojo.copilot) do
-      [pilot, copilot] = Enum.take_random(dojo.audience, 2)
+    cond do
+      MapSet.size(dojo.audience) < 3 ->
+        {:noreply, dojo}
 
-      new_audience =
-        dojo.audience
-        |> MapSet.delete(pilot)
-        |> MapSet.delete(copilot)
+      is_nil(dojo.pilot) || is_nil(dojo.copilot) ->
+        [pilot, copilot] = Enum.take_random(dojo.audience, 2)
 
-      {:noreply, %__MODULE__{pilot: pilot, copilot: copilot, audience: new_audience}}
-    else
-      new_copilot = Enum.random(dojo.audience)
+        new_audience =
+          dojo.audience
+          |> MapSet.delete(pilot)
+          |> MapSet.delete(copilot)
 
-      new_audience =
-        dojo.audience
-        # returns audience after exclude new_copilot
-        |> MapSet.delete(new_copilot)
-        # Adds previous_pilot to audience and return
-        |> MapSet.put(dojo.pilot)
+        {:noreply, %__MODULE__{pilot: pilot, copilot: copilot, audience: new_audience}}
 
-      new_pilot = dojo.copilot
+      true ->
+        new_copilot = Enum.random(dojo.audience)
 
-      {:noreply, %__MODULE__{pilot: new_pilot, copilot: new_copilot, audience: new_audience}}
+        new_audience =
+          dojo.audience
+          # returns audience after exclude new_copilot
+          |> MapSet.delete(new_copilot)
+          # Adds previous_pilot to audience and return
+          |> MapSet.put(dojo.pilot)
+
+        new_pilot = dojo.copilot
+
+        {:noreply, %__MODULE__{pilot: new_pilot, copilot: new_copilot, audience: new_audience}}
     end
   end
 
