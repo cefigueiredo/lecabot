@@ -49,9 +49,87 @@ defmodule Lecabot.DojoTest do
     end
   end
 
-      %Lecabot.Dojo{audience: current_state} = GenServer.call(pid, :dojo)
+  describe "handle_cast/2 :iterate - when is starting a session" do
+    setup [:initial_iterable_session]
 
-      assert initial_audience == current_state
+    test "draws 1 name from audience to pilot post", context do
+      GenServer.cast(context.dojo_pid, :iterate)
+
+      dojo_atual = GenServer.call(context.dojo_pid, :dojo)
+
+      assert Enum.member?(context.initial_audience, dojo_atual.pilot)
+      refute Enum.member?(dojo_atual.audience, dojo_atual.pilot)
     end
+
+    test "draws 1 name from audience to copilot post", context do
+      GenServer.cast(context.dojo_pid, :iterate)
+
+      dojo_atual = GenServer.call(context.dojo_pid, :dojo)
+
+      assert Enum.member?(context.initial_audience, dojo_atual.copilot)
+      refute Enum.member?(dojo_atual.audience, dojo_atual.copilot)
+    end
+  end
+
+  describe "handle_cast/2 :iterate - when session is in course" do
+    setup [:session_in_course]
+
+    test "returns pilot to audience pool", context do
+      GenServer.cast(context.dojo_pid, :iterate)
+
+      dojo_atual = GenServer.call(context.dojo_pid, :dojo)
+
+      assert dojo_atual.pilot != context.previous_pilot
+      assert Enum.member?(dojo_atual.audience, context.previous_pilot)
+    end
+
+    test "elevate current copilot to pilot post", context do
+      GenServer.cast(context.dojo_pid, :iterate)
+
+      dojo_atual = GenServer.call(context.dojo_pid, :dojo)
+
+      refute is_nil(dojo_atual.pilot)
+      assert dojo_atual.pilot == context.previous_copilot
+      assert dojo_atual.copilot != context.previous_copilot
+    end
+
+    test "draws 1 name from audience to copilot post", context do
+      GenServer.cast(context.dojo_pid, :iterate)
+
+      dojo_atual = GenServer.call(context.dojo_pid, :dojo)
+
+      assert Enum.member?(context.previous_audience, dojo_atual.copilot)
+      refute Enum.member?(dojo_atual.audience, dojo_atual.copilot)
+      assert Enum.member?(dojo_atual.audience, context.previous_pilot)
+    end
+  end
+
+  def initial_iterable_session(_context) do
+    initial_audience = MapSet.new(["username1", "username2", "username3"])
+    {:ok, dojo_pid} = GenServer.start(Lecabot.Dojo, %Lecabot.Dojo{audience: initial_audience})
+
+    [
+      initial_audience: initial_audience,
+      dojo_pid: dojo_pid
+    ]
+  end
+
+  def session_in_course(_context) do
+    audience = MapSet.new(["username1", "username2", "username3"])
+
+    current_state = %Lecabot.Dojo{
+      pilot: "pilot",
+      copilot: "copilot",
+      audience: audience
+    }
+
+    {:ok, dojo_pid} = GenServer.start(Lecabot.Dojo, current_state)
+
+    [
+      previous_audience: audience,
+      previous_pilot: "pilot",
+      previous_copilot: "copilot",
+      dojo_pid: dojo_pid
+    ]
   end
 end
