@@ -18,11 +18,11 @@ defmodule Lecabot.Dojo do
     * audience: that is a MapSet that list of unique usernames that will participate in the session
   """
   @type t :: %__MODULE__{
-    pilot: String.t(),
-    copilot: String.t(),
-    audience: MapSet.t(String.t())
-  }
-  defstruct pilot: nil, copilot: nil, audience: MapSet.new
+          pilot: String.t(),
+          copilot: String.t(),
+          audience: MapSet.t(String.t())
+        }
+  defstruct pilot: nil, copilot: nil, audience: MapSet.new()
 
   def start_link(state) do
     GenServer.start_link(__MODULE__, state, name: __MODULE__)
@@ -39,12 +39,13 @@ defmodule Lecabot.Dojo do
 
     {:noreply, Map.merge(dojo, %{audience: audience})}
   end
+
   def handle_cast(_request, state) do
     {:noreply, state}
   end
 
   @impl GenServer
-  def handle_call(:dojo, _from ,dojo) do
+  def handle_call(:dojo, _from, dojo) do
     {:reply, dojo, dojo}
   end
 end

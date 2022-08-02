@@ -17,7 +17,7 @@ defmodule Lecabot.DojoTest do
       initial_audience: initial_audience,
       dojo_pid: pid
     } do
-      %Lecabot.Dojo{audience: audience} = GenServer.call pid, :dojo
+      %Lecabot.Dojo{audience: audience} = GenServer.call(pid, :dojo)
 
       assert initial_audience == audience
     end
@@ -28,9 +28,9 @@ defmodule Lecabot.DojoTest do
       initial_audience: initial_audience,
       dojo_pid: pid
     } do
-      GenServer.cast pid, {:add_participant, "username2"}
+      GenServer.cast(pid, {:add_participant, "username2"})
 
-      %Lecabot.Dojo{audience: changed_audience} = GenServer.call pid, :dojo
+      %Lecabot.Dojo{audience: changed_audience} = GenServer.call(pid, :dojo)
       expected_audience = MapSet.put(initial_audience, "username2")
 
       assert expected_audience == changed_audience
@@ -40,9 +40,9 @@ defmodule Lecabot.DojoTest do
       initial_audience: initial_audience,
       dojo_pid: pid
     } do
-      :ok = GenServer.cast pid, {:add_participant, "username"}
+      :ok = GenServer.cast(pid, {:add_participant, "username"})
 
-      %Lecabot.Dojo{audience: retrieved_audience} = GenServer.call pid, :dojo
+      %Lecabot.Dojo{audience: retrieved_audience} = GenServer.call(pid, :dojo)
 
       assert initial_audience == retrieved_audience
     end
@@ -51,9 +51,9 @@ defmodule Lecabot.DojoTest do
       initial_audience: initial_audience,
       dojo_pid: pid
     } do
-      GenServer.cast pid, :whatever
+      GenServer.cast(pid, :whatever)
 
-      %Lecabot.Dojo{audience: current_state} = GenServer.call pid, :dojo
+      %Lecabot.Dojo{audience: current_state} = GenServer.call(pid, :dojo)
 
       assert initial_audience == current_state
     end

@@ -45,7 +45,7 @@ defmodule Lecabot.Bot do
   end
 
   def handle_message(msg, "lecaduco", _chat) do
-    IO.puts "Eu disse: #{msg}"
+    IO.puts("Eu disse: #{msg}")
   end
 
   def handle_message(msg, sender, _chat) do
@@ -54,7 +54,7 @@ defmodule Lecabot.Bot do
         add_participant(sender)
 
       true ->
-        IO.puts "#{sender} disse: #{msg}"
+        IO.puts("#{sender} disse: #{msg}")
     end
   end
 
@@ -68,7 +68,7 @@ defmodule Lecabot.Bot do
         {:ignore, "None dojo session running"}
 
       _ ->
-        IO.puts "#{sender} vai participar!"
+        IO.puts("#{sender} vai participar!")
         GenServer.cast(Dojo, {:add_participant, sender})
     end
   end
