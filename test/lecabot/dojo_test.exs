@@ -12,8 +12,8 @@ defmodule Lecabot.DojoTest do
     ]
   end
 
-  describe "handle_call/2" do
-    test "responds to :dojo msg returning the current dojo state", %{
+  describe "handle_call/2 :dojo" do
+    test "responds returning the current dojo state", %{
       initial_audience: initial_audience,
       dojo_pid: pid
     } do
@@ -23,8 +23,8 @@ defmodule Lecabot.DojoTest do
     end
   end
 
-  describe "handle_cast/2" do
-    test "responds to {:add_participant, \"username2\"} adding the username to audience", %{
+  describe "handle_cast/2 {:add_participant, _name}" do
+    test "responds adding the username to audience", %{
       initial_audience: initial_audience,
       dojo_pid: pid
     } do
@@ -36,7 +36,7 @@ defmodule Lecabot.DojoTest do
       assert expected_audience == changed_audience
     end
 
-    test "when adding participant avoids duplicates", %{
+    test "avoids duplicates", %{
       initial_audience: initial_audience,
       dojo_pid: pid
     } do
@@ -46,8 +46,10 @@ defmodule Lecabot.DojoTest do
 
       assert initial_audience == retrieved_audience
     end
+  end
 
-    test "responds to anything else doing nothing", %{
+  describe "handle_cast/2 when msg is unknown" do
+    test "responds doing nothing", %{
       initial_audience: initial_audience,
       dojo_pid: pid
     } do
