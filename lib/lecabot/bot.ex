@@ -44,6 +44,23 @@ defmodule Lecabot.Bot do
     end
   end
 
+  def handle_message("!iterate", "lecaduco", _channel) do
+    case DynamicSupervisor.count_children(Lecabot.DojoSupervisor) do
+      %{active: 0} ->
+        {:ignore, "None dojo session running."}
+
+      _ ->
+        GenServer.cast(Dojo, :iterate)
+        %Dojo{pilot: pilot, copilot: copilot} = GenServer.call(Dojo, :dojo)
+
+        if pilot do
+          say("lecaduco", "Jogares da rodada:\n --> PILOTO: #{pilot} \n --> COPILOTO: #{copilot}")
+        else
+          say("lecaduco", "A rodada nao pode iniciar, faltam jogadores.")
+        end
+    end
+  end
+
   def handle_message(msg, "lecaduco", _chat) do
     IO.puts("Eu disse: #{msg}")
   end
