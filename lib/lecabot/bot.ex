@@ -31,7 +31,13 @@ defmodule Lecabot.Bot do
   def handle_message("!createdojo", "lecaduco", _chat) do
     child_spec = Supervisor.child_spec({Dojo, %Dojo{}}, id: Lecabot.Dojo)
 
-    {:ok, _dojo} = DynamicSupervisor.start_child(Lecabot.DojoSupervisor, child_spec)
+    case DynamicSupervisor.start_child(Lecabot.DojoSupervisor, child_spec) do
+      {:error, {:already_started, _}} ->
+        {:ignore, "Dojo session is already running"}
+
+      _ ->
+        {:ok, "Dojo started successfuly."}
+    end
   end
 
   def handle_message("!closedojo", "lecaduco", _channel) do
@@ -70,8 +76,11 @@ defmodule Lecabot.Bot do
       msg =~ ~r/.*!participar.*/ ->
         add_participant(sender)
 
+      msg == "!createdojo" ->
+        {:ignore, "\"#{sender}\" is not allowed to create dojos."}
+
       true ->
-        IO.puts("#{sender} disse: #{msg}")
+        IO.puts("#{sender} disse: #{msg}") # return is :ok
     end
   end
 
