@@ -39,6 +39,9 @@ defmodule Lecabot.Bot do
         {:ok, "Dojo started successfuly."}
     end
   end
+  def handle_message("!createdojo", sender, _chat) do
+    {:ignore, "\"#{sender}\" is not allowed to create dojos."}
+  end
 
   def handle_message("!closedojo", "lecaduco", _channel) do
     case DynamicSupervisor.terminate_child(Lecabot.DojoSupervisor, Lecabot.Dojo) do
@@ -48,6 +51,9 @@ defmodule Lecabot.Bot do
       _ ->
         {:ignore, "None dojo session running"}
     end
+  end
+  def handle_message("!closedojo", sender, _chat) do
+    {:ignore, "\"#{sender}\" is not allowed to finish dojos."}
   end
 
   def handle_message("!iterate", "lecaduco", _channel) do
@@ -76,16 +82,13 @@ defmodule Lecabot.Bot do
       msg =~ ~r/.*!participar.*/ ->
         add_participant(sender)
 
-      msg == "!createdojo" ->
-        {:ignore, "\"#{sender}\" is not allowed to create dojos."}
-
       true ->
-        IO.puts("#{sender} disse: #{msg}") # return is :ok
+        {:ignore, IO.puts("#{sender} disse: #{msg}")}
     end
   end
 
   def handle_join(channel, user) do
-    IO.inspect("#{user} joins #{channel}")
+    IO.puts("#{user} joins #{channel}")
   end
 
   defp add_participant(sender) do
