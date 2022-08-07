@@ -1,8 +1,23 @@
 defmodule Lecabot.BotTest do
   use ExUnit.Case
 
+  import Mock
+
   describe "handle_message/3 !participantes" do
-    setup [:start_dojo_session]
+    setup :start_dojo_session
+
+    test "post the list of participants in the chat" do
+      with_mock(TMI.MessageServer, [
+        add_message:
+          fn(Lecabot.Bot, "lecaduco", msg) ->
+            assert msg =~ ~r/username1/
+            assert msg =~ ~r/username2/
+            assert msg =~ ~r/username3/
+          end
+      ]) do
+        Lecabot.Bot.handle_message("!participantes", "tst", "lecaduco")
+      end
+    end
 
     test "ignore in the absense of a dojo session" do
       stop_supervised(Lecabot.Dojo)

@@ -1,4 +1,6 @@
 %{
   "exirc": {:hex, :exirc, "2.0.0", "6b3b8da6d56096a2a613f3688ef05ed52d235a95566e889e885409c307b218b6", [:mix], [], "hexpm", "aba949c7e60ce4bbf1954d78ede33825ffe2fa01e840edd843ddc8f3775e7390"},
+  "meck": {:hex, :meck, "0.9.2", "85ccbab053f1db86c7ca240e9fc718170ee5bda03810a6292b5306bf31bae5f5", [:rebar3], [], "hexpm", "81344f561357dc40a8344afa53767c32669153355b626ea9fcbc8da6b3045826"},
+  "mock": {:hex, :mock, "0.3.7", "75b3bbf1466d7e486ea2052a73c6e062c6256fb429d6797999ab02fa32f29e03", [:mix], [{:meck, "~> 0.9.2", [hex: :meck, repo: "hexpm", optional: false]}], "hexpm", "4da49a4609e41fd99b7836945c26f373623ea968cfb6282742bcb94440cf7e5c"},
   "tmi": {:hex, :tmi, "0.5.4", "9bf1d4c6fa82f9be2c5ff6b903befe158ca1ab28563c803e7cd517a3fbebdb24", [:mix], [{:exirc, "~> 2.0", [hex: :exirc, repo: "hexpm", optional: false]}], "hexpm", "b4fb1ca589d182c6282ccb81829eb4b963f2754405d0ea62e062b1fbe1815892"},
 }

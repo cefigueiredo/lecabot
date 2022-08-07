@@ -22,7 +22,8 @@ defmodule Lecabot.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:tmi, "~> 0.5.4"}
+      {:tmi, "~> 0.5.4"},
+      {:mock, "~> 0.3.7", only: :test}
     ]
   end
 end
