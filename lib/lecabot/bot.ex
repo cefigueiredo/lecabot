@@ -13,7 +13,7 @@ defmodule Lecabot.Bot do
   end
 
   def handle_message("!participantes", _sender, _chat) do
-    case DynamicSupervisor.count_children(Lecabot.DojoSupervisor) do
+    case dojo_supervisor(:count_children) do
       %{active: 0} ->
         {:ignore, "None dojo session running."}
 
@@ -31,8 +31,8 @@ defmodule Lecabot.Bot do
   def handle_message("!createdojo", "lecaduco", _chat) do
     child_spec = Supervisor.child_spec({Dojo, %Dojo{}}, id: Lecabot.Dojo)
 
-    case DynamicSupervisor.start_child(Lecabot.DojoSupervisor, child_spec) do
-      {:error, {:already_started, _}} ->
+    case dojo_supervisor(:start_child, [child_spec]) do
+      {:error, _} ->
         {:ignore, "Dojo session is already running"}
 
       _ ->
@@ -44,7 +44,7 @@ defmodule Lecabot.Bot do
   end
 
   def handle_message("!closedojo", "lecaduco", _channel) do
-    case DynamicSupervisor.terminate_child(Lecabot.DojoSupervisor, Lecabot.Dojo) do
+    case dojo_supervisor(:terminate_child, [Lecabot.Dojo]) do
       :ok ->
         say("lecaduco", "Dojo terminado!")
 
@@ -57,7 +57,7 @@ defmodule Lecabot.Bot do
   end
 
   def handle_message("!iterate", "lecaduco", _channel) do
-    case DynamicSupervisor.count_children(Lecabot.DojoSupervisor) do
+    case dojo_supervisor(:count_children) do
       %{active: 0} ->
         {:ignore, "None dojo session running."}
 
@@ -91,8 +91,27 @@ defmodule Lecabot.Bot do
     IO.puts("#{user} joins #{channel}")
   end
 
+  defp fetch_dojo_supervisor do
+    case Application.fetch_env(:lecabot, :dojo_supervisor) do
+      {:ok, {mod, fun}} ->
+        {:ok, supervisor} = apply(mod, fun, [])
+
+        supervisor
+
+      {:ok, mod} ->
+        mod
+    end
+  end
+
+  defp dojo_supervisor(function, args \\ []) do
+    main_supervisor_module = Application.fetch_env!(:lecabot, :main_supervisor)
+    args = [fetch_dojo_supervisor() | args]
+
+    apply(main_supervisor_module, function, args)
+  end
+
   defp add_participant(sender) do
-    case DynamicSupervisor.count_children(Lecabot.DojoSupervisor) do
+    case DynamicSupervisor.count_children(fetch_dojo_supervisor()) do
       %{active: 0} ->
         {:ignore, "None dojo session running"}
 

@@ -1,6 +1,8 @@
 import Config
 
 config :lecabot,
+  main_supervisor: DynamicSupervisor,
+  dojo_supervisor: Lecabot.DojoSupervisor,
   bots: [
     [
       bot: Lecabot.Bot,
