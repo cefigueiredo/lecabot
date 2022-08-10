@@ -4,6 +4,8 @@
     - Repassa para Jukebox o `spotify_song_link`
   - (?) Vai receber comando !play [nome da musica p buscar]
     - Repassa para Jukebox o nome da musica p buscar
+  - Usuario envia comando para saber a posicao das musicas na fila
+
 
 # Jukebox - nome melhor a definir
   - Controla uma playlist adicionando musicas que vao tocar na live
