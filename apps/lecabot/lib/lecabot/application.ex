@@ -10,15 +10,16 @@ defmodule Lecabot.Application do
     [bot_config] = Application.fetch_env!(:lecabot, :bots)
 
     children = [
-      # Starts a worker by calling: Lecabot.Worker.start_link(arg)
+      # Start the Ecto repository
+      Lecabot.Repo,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: Lecabot.PubSub},
+      # Start a worker by calling: Lecabot.Worker.start_link(arg)
       # {Lecabot.Worker, arg}
       {TMI.Supervisor, bot_config},
       {DynamicSupervisor, name: Lecabot.DojoSupervisor, strategy: :one_for_one}
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Lecabot.Supervisor]
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link(children, strategy: :one_for_one, name: Lecabot.Supervisor)
   end
 end
