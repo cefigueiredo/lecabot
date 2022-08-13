@@ -37,6 +37,7 @@ defmodule Lecabot.MixProject do
   defp deps do
     [
       {:tmi, "~> 0.5.4"},
+      {:spotify_ex, "~> 2.3.0"},
       {:mock, "~> 0.3.7", only: :test},
       {:phoenix_pubsub, "~> 2.0"},
       {:ecto_sql, "~> 3.6"},
