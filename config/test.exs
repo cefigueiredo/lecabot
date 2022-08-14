@@ -10,7 +10,7 @@ config :lecabot,
       channels: ["lecaduco"],
       pass: "oauth:TEST",
       capabilities: ["membership", "tags", "commands"],
-      debug: true
+      debug: false
     ]
   ]
 
@@ -20,8 +20,8 @@ config :lecabot,
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :lecabot, Lecabot.Repo,
-  username: "lecabot",
-  password: "lecabot",
+  username: System.get_env("POSTGRES_USERNAME"),
+  password: System.get_env("POSTGRES_PASS"),
   hostname: "localhost",
   database: "lecabot_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,

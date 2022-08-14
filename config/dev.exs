@@ -14,10 +14,14 @@ config :lecabot,
     ]
   ]
 
+config :spotify_ex,
+  client_id: System.get_env("SHOPIFY_CLIENT_ID"),
+  secret_key: System.get_env("SHOPIFY_SECRET")
+
 # Configure your database
 config :lecabot, Lecabot.Repo,
-  username: "lecabot",
-  password: "lecabot",
+  username: System.get_env("POSTGRES_USERNAME"),
+  password: System.get_env("POSTGRES_PASS"),
   hostname: "localhost",
   database: "lecabot_dev",
   stacktrace: true,
