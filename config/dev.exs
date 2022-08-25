@@ -6,9 +6,9 @@ config :lecabot,
   bots: [
     [
       bot: Lecabot.Bot,
-      user: "lecaduco",
+      user: "lecaducoBot",
       channels: ["lecaduco"],
-      pass: "oauth:" <> System.get_env("TWITCH_TOKEN"),
+      pass: "oauth:F_BOT",
       capabilities: ["membership", "tags", "commands"],
       debug: true
     ]
