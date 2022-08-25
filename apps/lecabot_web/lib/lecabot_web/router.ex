@@ -14,6 +14,13 @@ defmodule LecabotWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/twitch", LecabotWeb do
+    pipe_through :browser
+
+    get "/authorize", TwitchController, :authorize
+    get "/callback", TwitchController, :callback
+  end
+
   scope "/", LecabotWeb do
     pipe_through :browser
 
