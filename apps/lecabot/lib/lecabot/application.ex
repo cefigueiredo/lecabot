@@ -7,7 +7,7 @@ defmodule Lecabot.Application do
 
   @impl true
   def start(_type, _args) do
-    [bot_config] = Application.fetch_env!(:lecabot, :bots)
+    bot_config = Lecabot.ConfigEngine.generate
 
     children = [
       # Start the Ecto repository
