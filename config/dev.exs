@@ -1,18 +1,13 @@
 import Config
 
+config :twitch,
+  client_id: System.get_env("TWITCH_CLIENT_ID"),
+  client_secret: System.get_env("TWITCH_CLIENT_SECRET"),
+  grant_type: "authorization_code"
+
 config :lecabot,
   main_supervisor: DynamicSupervisor,
-  dojo_supervisor: Lecabot.DojoSupervisor,
-  bots: [
-    [
-      bot: Lecabot.Bot,
-      user: "lecaducoBot",
-      channels: ["lecaduco"],
-      pass: "oauth:F_BOT",
-      capabilities: ["membership", "tags", "commands"],
-      debug: true
-    ]
-  ]
+  dojo_supervisor: Lecabot.DojoSupervisor
 
 config :spotify_ex,
   client_id: System.get_env("SPOTIFY_CLIENT_ID"),

@@ -1,11 +1,11 @@
-defmodule Lecabot.ConfigEngineTest do
-  alias Lecabot.ConfigEngine
+defmodule Lecabot.TMIConfigTest do
+  alias Lecabot.TMIConfig
 
   use ExUnit.Case
 
   describe "generate" do
     test "return a TMI bot config struct" do
-      assert ConfigEngine.generate  == [
+      assert TMIConfig.generate  == [
         {:bot, Lecabot.Bot},
         {:user, "lecaducoBot"},
         {:channels, ["lecaduco"]},

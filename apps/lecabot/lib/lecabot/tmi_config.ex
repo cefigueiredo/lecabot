@@ -1,4 +1,4 @@
-defmodule Lecabot.ConfigEngine do
+defmodule Lecabot.TMIConfig do
   @docmodule """
     Reune o que é necessario para gerar configs para bots TMI
   """
