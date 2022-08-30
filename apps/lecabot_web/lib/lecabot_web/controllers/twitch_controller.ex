@@ -2,11 +2,13 @@ defmodule LecabotWeb.TwitchController do
   use LecabotWeb, :controller
 
   def authorize(conn, _params) do
-    scopes = [
-      "chat:edit",
-      "chat:read",
-      "whispers:edit"
-    ] |> Enum.join(" ")
+    scopes =
+      [
+        "chat:edit",
+        "chat:read",
+        "whispers:edit"
+      ]
+      |> Enum.join(" ")
 
     authorize_parameters =
       %{
@@ -14,7 +16,8 @@ defmodule LecabotWeb.TwitchController do
         redirect_uri: "http://localhost:4000/twitch/callback",
         response_type: "code",
         scope: scopes
-      } |> URI.encode_query()
+      }
+      |> URI.encode_query()
 
     redirect(conn, external: "https://id.twitch.tv/oauth2/authorize?#{authorize_parameters}")
   end

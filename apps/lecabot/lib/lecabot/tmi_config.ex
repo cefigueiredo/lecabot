@@ -4,13 +4,13 @@ defmodule Lecabot.TMIConfig do
   """
 
   @type tmi_config :: [
-    bot: atom(),
-    user: String.t(),
-    channels: [String.t()],
-    pass: String.t(),
-    capabilities: [String.t()],
-    debug: boolean()
-  ]
+          bot: atom(),
+          user: String.t(),
+          channels: [String.t()],
+          pass: String.t(),
+          capabilities: [String.t()],
+          debug: boolean()
+        ]
 
   @spec generate() :: tmi_config()
   def generate() do

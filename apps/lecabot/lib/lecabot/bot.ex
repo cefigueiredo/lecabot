@@ -39,6 +39,7 @@ defmodule Lecabot.Bot do
         {:ok, "Dojo started successfuly."}
     end
   end
+
   def handle_message("!createdojo", sender, _chat) do
     {:ignore, "\"#{sender}\" is not allowed to create dojos."}
   end
@@ -52,6 +53,7 @@ defmodule Lecabot.Bot do
         {:ignore, "None dojo session running"}
     end
   end
+
   def handle_message("!closedojo", sender, _chat) do
     {:ignore, "\"#{sender}\" is not allowed to finish dojos."}
   end

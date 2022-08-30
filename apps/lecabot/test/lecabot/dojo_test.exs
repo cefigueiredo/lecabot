@@ -116,9 +116,9 @@ defmodule Lecabot.DojoTest do
     end
 
     test "does nothing", context do
-      GenServer.cast context.dojo_pid, :iterate
+      GenServer.cast(context.dojo_pid, :iterate)
 
-      dojo_atual = GenServer.call context.dojo_pid, :dojo
+      dojo_atual = GenServer.call(context.dojo_pid, :dojo)
 
       assert dojo_atual.audience == context.initial_audience
       assert is_nil(dojo_atual.pilot)

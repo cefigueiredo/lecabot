@@ -7,14 +7,13 @@ defmodule Lecabot.BotTest do
     setup :start_dojo_session
 
     test "post the list of participants in the chat" do
-      with_mock(TMI.MessageServer, [
-        add_message:
-          fn(Lecabot.Bot, "lecaduco", msg) ->
-            assert msg =~ ~r/username1/
-            assert msg =~ ~r/username2/
-            assert msg =~ ~r/username3/
-          end
-      ]) do
+      with_mock(TMI.MessageServer,
+        add_message: fn Lecabot.Bot, "lecaduco", msg ->
+          assert msg =~ ~r/username1/
+          assert msg =~ ~r/username2/
+          assert msg =~ ~r/username3/
+        end
+      ) do
         Lecabot.Bot.handle_message("!participantes", "tst", "lecaduco")
       end
     end
