@@ -10,9 +10,11 @@ defmodule LecabotWeb.TwitchController do
       ]
       |> Enum.join(" ")
 
+    {:ok, [client_id: client_id]} = Application.fetch_env(:lecabot, Lecabot.Twitch)
+
     authorize_parameters =
       %{
-        client_id: Application.fetch_env!(:twitch, :client_id),
+        client_id: client_id,
         redirect_uri: "http://localhost:4000/twitch/callback",
         response_type: "code",
         scope: scopes
@@ -22,7 +24,7 @@ defmodule LecabotWeb.TwitchController do
     redirect(conn, external: "https://id.twitch.tv/oauth2/authorize?#{authorize_parameters}")
   end
 
-  def callback(conn, params) do
+  def callback(conn, _params) do
     text(conn, "tst")
   end
 end

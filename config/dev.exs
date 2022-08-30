@@ -1,10 +1,5 @@
 import Config
 
-config :twitch,
-  client_id: System.get_env("TWITCH_CLIENT_ID"),
-  client_secret: System.get_env("TWITCH_CLIENT_SECRET"),
-  grant_type: "authorization_code"
-
 config :lecabot,
   main_supervisor: DynamicSupervisor,
   dojo_supervisor: Lecabot.DojoSupervisor
@@ -22,6 +17,11 @@ config :lecabot, Lecabot.Repo,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
+
+config :lecabot, Lecabot.Twitch,
+  client_id: System.get_env("TWITCH_CLIENT_ID"),
+  client_secret: System.get_env("TWITCH_CLIENT_SECRET"),
+  grant_type: "authorization_code"
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

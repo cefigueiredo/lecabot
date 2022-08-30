@@ -7,7 +7,7 @@ defmodule Lecabot.Application do
 
   @impl true
   def start(_type, _args) do
-    # bot_config = Lecabot.TMIConfig.generate
+    # bot_config = Lecabot.Twitch.TMIConfig.generate
 
     children = [
       # Start the Ecto repository

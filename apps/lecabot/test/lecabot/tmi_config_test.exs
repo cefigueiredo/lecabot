@@ -1,5 +1,5 @@
-defmodule Lecabot.TMIConfigTest do
-  alias Lecabot.TMIConfig
+defmodule Lecabot.Twitch.TMIConfigTest do
+  alias Lecabot.Twitch.TMIConfig
 
   use ExUnit.Case
 
