@@ -21,7 +21,10 @@ config :lecabot, Lecabot.Repo,
 config :lecabot, Lecabot.Twitch,
   client_id: System.get_env("TWITCH_CLIENT_ID"),
   client_secret: System.get_env("TWITCH_CLIENT_SECRET"),
-  grant_type: "authorization_code"
+  code: System.get_env("TWITCH_AUTHORIZATION_CODE"),
+  grant_type: "authorization_code",
+  redirect_uri: "http://localhost:4000/twitch/callback",
+  oauth_url: "https://id.twitch.tv/oauth2/token"
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

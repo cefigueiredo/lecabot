@@ -14,6 +14,14 @@ config :lecabot,
     ]
   ]
 
+config :lecabot, Lecabot.Twitch,
+  client_id: "client_id",
+  client_secret: "client_secret",
+  code: "authorization_code",
+  grant_type: "authorization_code",
+  redirect_uri: "callback_url",
+  oauth_url: "twitch_oauth_url"
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used

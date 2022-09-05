@@ -3,7 +3,7 @@ defmodule Lecabot.DojoTest do
   doctest Lecabot.Dojo
 
   setup do
-    initial_audience = MapSet.new(["username"])
+    initial_audience = MapSet.new(["lecaduco"])
     {:ok, dojo_pid} = GenServer.start(Lecabot.Dojo, %Lecabot.Dojo{audience: initial_audience})
 
     [
@@ -20,18 +20,18 @@ defmodule Lecabot.DojoTest do
     end
   end
 
-  describe "handle_cast/2 {:add_participant, _username}" do
-    test "responds adding the username to audience", context do
-      GenServer.cast(context.dojo_pid, {:add_participant, "username2"})
+  describe "handle_cast/2 {:add_participant, _lecaduco}" do
+    test "responds adding the lecaduco to audience", context do
+      GenServer.cast(context.dojo_pid, {:add_participant, "lecaduco2"})
 
       %Lecabot.Dojo{audience: audience} = GenServer.call(context.dojo_pid, :dojo)
-      expected_audience = MapSet.put(context.initial_audience, "username2")
+      expected_audience = MapSet.put(context.initial_audience, "lecaduco2")
 
       assert expected_audience == audience
     end
 
     test "avoids duplicates", context do
-      :ok = GenServer.cast(context.dojo_pid, {:add_participant, "username"})
+      :ok = GenServer.cast(context.dojo_pid, {:add_participant, "lecaduco"})
 
       %Lecabot.Dojo{audience: audience} = GenServer.call(context.dojo_pid, :dojo)
 
@@ -106,7 +106,7 @@ defmodule Lecabot.DojoTest do
 
   describe "handle_cast/2 :iterate - when audience is fewer than 3 names" do
     setup do
-      initial_audience = MapSet.new(["username1", "username2"])
+      initial_audience = MapSet.new(["lecaduco1", "lecaduco2"])
       {:ok, dojo_pid} = GenServer.start(Lecabot.Dojo, %Lecabot.Dojo{audience: initial_audience})
 
       [
@@ -127,7 +127,7 @@ defmodule Lecabot.DojoTest do
   end
 
   def initial_iterable_session(_context) do
-    initial_audience = MapSet.new(["username1", "username2", "username3"])
+    initial_audience = MapSet.new(["lecaduco1", "lecaduco2", "lecaduco3"])
     {:ok, dojo_pid} = GenServer.start(Lecabot.Dojo, %Lecabot.Dojo{audience: initial_audience})
 
     [
@@ -137,7 +137,7 @@ defmodule Lecabot.DojoTest do
   end
 
   def session_in_course(_context) do
-    audience = MapSet.new(["username1", "username2", "username3"])
+    audience = MapSet.new(["lecaduco1", "lecaduco2", "lecaduco3"])
 
     current_state = %Lecabot.Dojo{
       pilot: "pilot",
