@@ -13,12 +13,12 @@ defmodule Lecabot.Twitch.TMIConfig do
         ]
 
   @spec generate() :: tmi_config()
-  def generate() do
+  def generate(token \\ "token") do
     [
       bot: Lecabot.Bot,
       user: "lecaducoBot",
       channels: ["lecaduco"],
-      pass: "oauth:token",
+      pass: "oauth:#{token}",
       capabilities: ["membership", "tags", "commands"],
       debug: false
     ]

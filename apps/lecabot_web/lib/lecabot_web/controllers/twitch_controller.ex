@@ -10,7 +10,7 @@ defmodule LecabotWeb.TwitchController do
       ]
       |> Enum.join(" ")
 
-    {:ok, [client_id: client_id]} = Application.fetch_env(:lecabot, Lecabot.Twitch)
+    client_id = Application.fetch_env!(:lecabot, Lecabot.Twitch)[:client_id]
 
     authorize_parameters =
       %{
